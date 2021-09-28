@@ -1,9 +1,14 @@
 # Cmd-rs
 Cmd-rs is an attempt to build a library which helps to build interactive commandline apps with ease.  
 It was inspired by the cmd module in python and the excellent [cmd2](https://github.com/python-cmd2/cmd2) library.  
-## Building
-You can build the library with 
 ## Usage
+To use this library you can set the dependency which points to this git repository, since it has not been published on cargo yet.  
+
+```toml
+[dependencies]
+cmd-rs = { git = "https://github.com/pauliyobo/cmd-rs"}
+```
+
 It is possible to use the `Command` trait to define a command which will then be assigned to the command processor.
 
 ```rust
