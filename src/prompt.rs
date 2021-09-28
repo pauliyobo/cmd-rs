@@ -20,6 +20,14 @@ impl CommandLoop {
         }
     }
 
+    fn get_prompt(&self) -> &str {
+        if let Some(prompt) = &self.prompt {
+            prompt
+        } else {
+            ""
+        }
+    }
+    
     pub fn with_prompt(mut self, prompt: &str) -> Self {
         self.prompt = Some(prompt.to_string());
         self
@@ -41,10 +49,13 @@ impl CommandLoop {
         }
         let mut rl = Editor::<()>::new();
         loop {
-            let readline =  rl.readline(">>");
+            let readline =  rl.readline(self.get_prompt());
             match readline {
                 Ok(line) => {
                     println!("{}", line);
+                },
+                Err(ReadlineError::Interrupted) => {
+                    break;
                 },
                 _ => (),
             }
