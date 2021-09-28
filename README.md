@@ -2,7 +2,7 @@
 Cmd-rs is an attempt to build a library which helps to build interactive commandline apps with ease.  
 It was inspired by the cmd module in python and the excellent [cmd2](https://github.com/python-cmd2/cmd2) library.  
 ## Usage
-To use this library you can set the dependency which points to this git repository, since it has not been published on cargo yet.  
+To use this library you can set the dependency which points to this git repository, since it has not been published on crates.io yet.  
 
 ```toml
 [dependencies]
@@ -55,6 +55,6 @@ I started building cmd-rs also to gain more experience with the rust programming
 * [ ] Even if this probably at a later stage. Adding a CI pipeline. perhaps github actions?
 * [ ] add pre-commit hook to lint and format code instead of having to do that manually
 * [ ] Adding tests where possible
-* [ ] publishing on cargo
+* [ ] publishing on crates.io
 ## Contributing
 If you find this project useful and would like to improve it, feel free to open an issue or send a pull request
