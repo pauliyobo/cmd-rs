@@ -1,4 +1,4 @@
-// A  command 
+// A  command
 
 pub struct Command {
     pub name: String,
@@ -11,7 +11,7 @@ impl Command {
         let name = cmd_name.into();
         let help = cmd_help.into();
         Command {
-            name: name,
+            name,
             help: Some(help),
         }
     }

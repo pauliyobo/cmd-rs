@@ -1,23 +1,29 @@
 use crate::command::Command;
-use std::collections::HashMap;
-use rustyline::Editor;
 use rustyline::error::ReadlineError;
+use rustyline::Editor;
+use std::collections::HashMap;
 
 pub struct CommandLoop {
     // the prompt to show each time, such as >>>
     pub prompt: Option<String>,
-    // the intro 
+    // the intro
     pub intro: Option<String>,
     commands: HashMap<String, Command>,
 }
 
-impl CommandLoop {
-    pub fn new() -> CommandLoop {
+impl Default for CommandLoop {
+    fn default() -> Self {
         CommandLoop {
             prompt: None,
             intro: None,
             commands: HashMap::new(),
         }
+    }
+}
+
+impl CommandLoop {
+    pub fn new() -> CommandLoop {
+        Default::default()
     }
 
     fn get_prompt(&self) -> &str {
@@ -27,7 +33,7 @@ impl CommandLoop {
             ""
         }
     }
-    
+
     pub fn with_prompt(mut self, prompt: &str) -> Self {
         self.prompt = Some(prompt.to_string());
         self
@@ -49,14 +55,14 @@ impl CommandLoop {
         }
         let mut rl = Editor::<()>::new();
         loop {
-            let readline =  rl.readline(self.get_prompt());
+            let readline = rl.readline(self.get_prompt());
             match readline {
                 Ok(line) => {
                     println!("{}", line);
-                },
+                }
                 Err(ReadlineError::Interrupted) => {
                     break;
-                },
+                }
                 _ => (),
             }
         }
