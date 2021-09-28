@@ -57,12 +57,17 @@ impl<'a> CommandLoop<'a> {
         loop {
             let readline = rl.readline(self.get_prompt());
             match readline {
-                Ok(line) => match self.commands.get(line.as_str()) {
-                    Some(cmd) => {
-                        cmd.execute().unwrap();
-                    }
-                    None => {
-                        println!("No command found");
+                Ok(line) => {
+                    let mut cmd_and_args = line.split_whitespace();
+                    let cmd_text = cmd_and_args.next().unwrap();
+                    let args: Vec<&str> = cmd_and_args.collect();
+                    match self.commands.get(cmd_text) {
+                        Some(cmd) => {
+                            cmd.execute(&args).unwrap();
+                        }
+                        None => {
+                            println!("No command found");
+                        }
                     }
                 },
                 Err(ReadlineError::Interrupted) => {
