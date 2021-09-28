@@ -1,5 +1,4 @@
-use anyhow::Result;
-use cmd_rs::{Command, CommandLoop};
+use cmd_rs::{Command, CommandProcessor, Result};
 
 // A simple command implementation
 // all what this does is 
@@ -45,7 +44,7 @@ impl<'a> Command<'a> for Cmd {
 }
 
 fn main() {
-    let cmd = CommandLoop::new()
+    CommandProcessor::new()
         .with_intro("test intro")
         .with_prompt(">")
         .add_command(Cmd::new("test", "test command"))
