@@ -8,3 +8,4 @@ license = "MIT"
 
 [dependencies]
 rustyline = "9.0.0"
+anyhow = "1.0.44"

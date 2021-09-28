@@ -3,15 +3,15 @@ use rustyline::error::ReadlineError;
 use rustyline::Editor;
 use std::collections::HashMap;
 
-pub struct CommandLoop {
+pub struct CommandLoop<'a> {
     // the prompt to show each time, such as >>>
     pub prompt: Option<String>,
-    // the intro
+    // the intro message
     pub intro: Option<String>,
-    commands: HashMap<String, Command>,
+    commands: HashMap<String, Box<dyn Command<'a>>>,
 }
 
-impl Default for CommandLoop {
+impl<'a> Default for CommandLoop<'a> {
     fn default() -> Self {
         CommandLoop {
             prompt: None,
@@ -21,8 +21,8 @@ impl Default for CommandLoop {
     }
 }
 
-impl CommandLoop {
-    pub fn new() -> CommandLoop {
+impl<'a> CommandLoop<'a> {
+    pub fn new() -> Self {
         Default::default()
     }
 
@@ -44,8 +44,8 @@ impl CommandLoop {
         self
     }
 
-    pub fn add_command(mut self, cmd: Command) -> Self {
-        self.commands.insert(cmd.name.clone(), cmd);
+    pub fn add_command(mut self, cmd: impl Command<'a> + 'static) -> Self {
+        self.commands.insert(cmd.name().to_string(), Box::new(cmd));
         self
     }
 
@@ -57,9 +57,14 @@ impl CommandLoop {
         loop {
             let readline = rl.readline(self.get_prompt());
             match readline {
-                Ok(line) => {
-                    println!("{}", line);
-                }
+                Ok(line) => match self.commands.get(line.as_str()) {
+                    Some(cmd) => {
+                        cmd.execute().unwrap();
+                    }
+                    None => {
+                        println!("No command found");
+                    }
+                },
                 Err(ReadlineError::Interrupted) => {
                     break;
                 }
