@@ -1,7 +1,7 @@
 use cmd_rs::{Command, CommandProcessor, Result};
 
 // A simple command implementation
-// all what this does is 
+// all what this does is
 // provide a name and help text
 // the execute() method will just print the help text if help is passed as argument
 // it will then print the number of arguments it was called with
@@ -14,12 +14,8 @@ impl Cmd {
     pub fn new<S: Into<String>>(cmd_name: S, cmd_help: S) -> Self {
         let name = cmd_name.into();
         let help = cmd_help.into();
-        Self {
-            name,
-            help,
-        }
+        Self { name, help }
     }
-
 }
 
 impl<'a> Command<'a> for Cmd {

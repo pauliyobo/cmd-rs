@@ -2,7 +2,7 @@ use anyhow::Result;
 
 // The  command trait
 pub trait Command<'a> {
-    // the command's name 
+    // the command's name
     fn name(&self) -> &str;
     // the command's help
     fn help(&self) -> Option<&str>;

@@ -69,7 +69,7 @@ impl<'a> CommandProcessor<'a> {
                             println!("No command found");
                         }
                     }
-                },
+                }
                 Err(ReadlineError::Interrupted) => {
                     break;
                 }
