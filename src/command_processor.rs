@@ -3,7 +3,7 @@ use rustyline::error::ReadlineError;
 use rustyline::Editor;
 use std::collections::HashMap;
 
-pub struct CommandLoop<'a> {
+pub struct CommandProcessor<'a> {
     // the prompt to show each time, such as >>>
     pub prompt: Option<String>,
     // the intro message
@@ -11,9 +11,9 @@ pub struct CommandLoop<'a> {
     commands: HashMap<String, Box<dyn Command<'a>>>,
 }
 
-impl<'a> Default for CommandLoop<'a> {
+impl<'a> Default for CommandProcessor<'a> {
     fn default() -> Self {
-        CommandLoop {
+        Self {
             prompt: None,
             intro: None,
             commands: HashMap::new(),
@@ -21,7 +21,7 @@ impl<'a> Default for CommandLoop<'a> {
     }
 }
 
-impl<'a> CommandLoop<'a> {
+impl<'a> CommandProcessor<'a> {
     pub fn new() -> Self {
         Default::default()
     }

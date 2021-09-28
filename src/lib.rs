@@ -1,5 +1,6 @@
 mod command;
-mod prompt;
+mod command_processor;
 
 pub use self::command::Command;
-pub use self::prompt::CommandLoop;
+pub use self::command_processor::CommandProcessor;
+pub use anyhow::Result;
