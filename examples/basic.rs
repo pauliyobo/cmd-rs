@@ -1,11 +1,11 @@
 use anyhow::Result;
-use cmd_rs::command::Command;
-use cmd_rs::prompt::CommandLoop;
+use cmd_rs::{Command, CommandLoop};
 
 // A simple command implementation
 // all what this does is 
 // provide a name and help text
-// the execute() method will just print the help text
+// the execute() method will just print the help text if help is passed as argument
+// it will then print the number of arguments it was called with
 struct Cmd {
     name: String,
     help: String,
@@ -36,7 +36,10 @@ impl<'a> Command<'a> for Cmd {
     }
 
     fn execute(&self, args: &[&str]) -> Result<()> {
-        println!("{}", self.help().unwrap());
+        if args.iter().any(|&arg| arg == "help") {
+            println!("{}", self.help().unwrap());
+        }
+        println!("Command called with {} arguments", args.len());
         Ok(())
     }
 }
