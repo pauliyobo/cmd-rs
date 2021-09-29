@@ -9,3 +9,4 @@ license = "MIT"
 rustyline = "9.0.0"
 anyhow = "1.0.44"
 cmd-rs-macro = { path = "cmd-rs-macro"}
+inventory = "0.1.10"

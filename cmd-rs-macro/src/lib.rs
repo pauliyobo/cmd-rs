@@ -60,6 +60,8 @@ pub fn make_command(args: TokenStream, input: TokenStream) -> TokenStream {
                 #ident()
             }
         }
+
+        inventory::submit!(cmd_rs::RegisteredCommand(&#ident))
     };
     output.into()
 }

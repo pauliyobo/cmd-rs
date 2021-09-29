@@ -1,27 +1,27 @@
-use crate::command::Command;
+use crate::command::{Command, RegisteredCommand};
 use rustyline::error::ReadlineError;
 use rustyline::Editor;
-use std::collections::HashMap;
+//use std::collections::HashMap;
 
-pub struct CommandProcessor<'a> {
+pub struct CommandProcessor {
     // the prompt to show each time, such as >>>
     pub prompt: Option<String>,
     // the intro message
     pub intro: Option<String>,
-    commands: HashMap<String, Box<dyn Command<'a>>>,
+    // commands: HashMap<String, Box<dyn Command<'a>>>,
 }
 
-impl<'a> Default for CommandProcessor<'a> {
+impl Default for CommandProcessor {
     fn default() -> Self {
         Self {
             prompt: None,
             intro: None,
-            commands: HashMap::new(),
+            // commands: HashMap::new(),
         }
     }
 }
 
-impl<'a> CommandProcessor<'a> {
+impl CommandProcessor {
     pub fn new() -> Self {
         Default::default()
     }
@@ -34,6 +34,15 @@ impl<'a> CommandProcessor<'a> {
         }
     }
 
+    pub fn get_command(&self, name: &str) -> Option<&RegisteredCommand> {
+        for command in inventory::iter::<RegisteredCommand> {
+            if command.name() == name {
+                return Some(command);
+            }
+        }
+        return None;
+    }
+
     pub fn with_prompt(mut self, prompt: &str) -> Self {
         self.prompt = Some(prompt.to_string());
         self
@@ -41,11 +50,6 @@ impl<'a> CommandProcessor<'a> {
 
     pub fn with_intro(mut self, intro: &str) -> Self {
         self.intro = Some(intro.to_string());
-        self
-    }
-
-    pub fn add_command(mut self, cmd: impl Command<'a> + 'static) -> Self {
-        self.commands.insert(cmd.name().to_string(), Box::new(cmd));
         self
     }
 
@@ -61,7 +65,7 @@ impl<'a> CommandProcessor<'a> {
                     let mut cmd_and_args = line.split_whitespace();
                     let cmd_text = cmd_and_args.next().unwrap();
                     let args: Vec<&str> = cmd_and_args.collect();
-                    match self.commands.get(cmd_text) {
+                    match self.get_command(cmd_text) {
                         Some(cmd) => {
                             cmd.execute(&args).unwrap();
                         }

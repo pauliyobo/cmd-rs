@@ -1,7 +1,7 @@
 use anyhow::Result;
 
 // The  command trait
-pub trait Command<'a> {
+pub trait Command {
     // the command's name
     fn name(&self) -> &str;
     // the command's help
@@ -9,3 +9,21 @@ pub trait Command<'a> {
     // the command's logic which is ran when the command is invoked
     fn execute(&self, args: &[&str]) -> Result<()>;
 }
+
+// A registered command
+pub struct RegisteredCommand(Box<dyn Command>);
+
+impl Command for RegisteredCommand {
+    fn name(&self) -> &str {
+        self.0.name()
+    }
+
+    fn help(&self) -> Option<&str> {
+        self.0.help()
+    }
+
+    fn execute(&self, _args: &[&str]) -> Result<()> {
+        self.0.execute(_args)
+    }
+}
+inventory::collect!(RegisteredCommand);
