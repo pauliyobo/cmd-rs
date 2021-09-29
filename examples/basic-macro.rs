@@ -1,7 +1,7 @@
-use cmd_rs::{make_command, CommandProcessor};
+use cmd_rs::{make_command, CommandProcessor, Result};
 
 #[make_command(help = "testing")]
-fn test() -> cmd_rs::Result<()> {
+fn test() -> Result<()> {
     println!("test");
     Ok(())
 }

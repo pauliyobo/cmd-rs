@@ -9,40 +9,21 @@ To use this library you can set the dependency which points to this git reposito
 cmd-rs = { git = "https://github.com/pauliyobo/cmd-rs"}
 ```
 
-It is possible to use the `Command` trait to define a command which will then be assigned to the command processor.
+A simple example which just prints the help text of the command when invoked is the following:
 
 ```rust
-use cmd_rs::{Command, CommandProcessor, Result};
+use cmd_rs::{make_command, CommandProcessor, Result};
 
-// A simple command
-struct SimpleCommand;
-
-// implement the Command trait
-impl<'a>  Command<'a> for SimpleCommand {
-    // the name of the command
-    fn name(&self) -> &str {
-        "simplecommand"
-    }
-    
-    
-    // the help text, which can be optional
-    fn help(&self) -> Option<&str> {
-        None
-    }
-    
-    // the method that will be invoked when the command is called
-    fn execute(&self, _args: &[&str]) -> Result<()> {
-        println!("{}", self.name());
-        Ok(())
-    }
+#[make_command(help = "Help example")]
+fn test() -> Result<()> {
+    println!("test");
+    Ok(())
 }
 
 fn main() {
     CommandProcessor::new()
-        // the intro message which will be displayed when the processor is started
-        .with_intro("Simple intro")
-        .with_prompt("simple>")
-        .add_command(SimpleCommand)
+        .with_prompt(">")
+        .add_command(test)
         .run();
 }
 ```
