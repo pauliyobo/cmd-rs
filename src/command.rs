@@ -1,4 +1,4 @@
-use anyhow::Result;
+use crate::Result;
 
 // The  command trait
 pub trait Command {
@@ -12,6 +12,12 @@ pub trait Command {
 
 // A registered command
 pub struct RegisteredCommand(Box<dyn Command>);
+
+impl RegisteredCommand {
+    pub fn new(cmd: Box<dyn Command>) -> Self {
+        RegisteredCommand(cmd)
+    }
+}
 
 impl Command for RegisteredCommand {
     fn name(&self) -> &str {

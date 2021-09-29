@@ -43,7 +43,7 @@ pub fn make_command(args: TokenStream, input: TokenStream) -> TokenStream {
     let output = quote!{
         struct #ident;
 
-        impl<'a> cmd_rs::Command<'a> for #ident {
+        impl cmd_rs::command::Command for #ident {
             fn name(&self) -> &str {
                 #cmd_name
             }
@@ -61,7 +61,7 @@ pub fn make_command(args: TokenStream, input: TokenStream) -> TokenStream {
             }
         }
 
-        inventory::submit!(cmd_rs::RegisteredCommand(&#ident))
+        inventory::submit!(cmd_rs::RegisteredCommand::new(Box::new(#ident)));
     };
     output.into()
 }

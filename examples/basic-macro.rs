@@ -9,6 +9,5 @@ fn test() -> Result<()> {
 fn main() {
     CommandProcessor::new()
         .with_prompt(">")
-        .add_command(test)
         .run();
 }
