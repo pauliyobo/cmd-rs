@@ -9,12 +9,12 @@ To use this library you can set the dependency which points to this git reposito
 cmd-rs = { git = "https://github.com/pauliyobo/cmd-rs"}
 ```
 
-A simple example which just prints the help text of the command when invoked is the following:
+A simple example which just prints the text test when invoked is the following:
 
 ```rust
 use cmd_rs::{make_command, CommandProcessor, Result};
 
-#[make_command(help = "Help example")]
+#[make_command]
 fn test() -> Result<()> {
     println!("test");
     Ok(())
