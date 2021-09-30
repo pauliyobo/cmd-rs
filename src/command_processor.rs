@@ -1,14 +1,12 @@
 use crate::command::{Command, RegisteredCommand};
 use rustyline::error::ReadlineError;
 use rustyline::Editor;
-//use std::collections::HashMap;
 
 pub struct CommandProcessor {
-    // the prompt to show each time, such as >>>
-    pub prompt: Option<String>,
+    // the prompt symbol or text  to show each time, such as >>>
+    prompt: Option<String>,
     // the intro message
-    pub intro: Option<String>,
-    // commands: HashMap<String, Box<dyn Command<'a>>>,
+    intro: Option<String>,
 }
 
 impl Default for CommandProcessor {
@@ -16,7 +14,6 @@ impl Default for CommandProcessor {
         Self {
             prompt: None,
             intro: None,
-            // commands: HashMap::new(),
         }
     }
 }
@@ -25,7 +22,14 @@ impl CommandProcessor {
     pub fn new() -> Self {
         Default::default()
     }
-
+    
+    fn maybe_get_intro(&self) -> Option<&str> {
+        if let Some(intro) = &self.intro {
+            return Some(intro.as_str());
+        }
+        None
+    }
+    
     fn get_prompt(&self) -> &str {
         if let Some(prompt) = &self.prompt {
             prompt
@@ -34,7 +38,7 @@ impl CommandProcessor {
         }
     }
 
-    pub fn get_command(&self, name: &str) -> Option<&RegisteredCommand> {
+    pub fn maybe_get_command(&self, name: &str) -> Option<&RegisteredCommand> {
         for command in inventory::iter::<RegisteredCommand> {
             if command.name() == name {
                 return Some(command);
@@ -54,7 +58,7 @@ impl CommandProcessor {
     }
 
     pub fn run(&self) {
-        if let Some(intro) = &self.intro {
+        if let Some(intro) = self.maybe_get_intro() {
             println!("{}", intro);
         }
         let mut rl = Editor::<()>::new();
@@ -65,7 +69,7 @@ impl CommandProcessor {
                     let mut cmd_and_args = line.split_whitespace();
                     let cmd_text = cmd_and_args.next().unwrap();
                     let args: Vec<&str> = cmd_and_args.collect();
-                    match self.get_command(cmd_text) {
+                    match self.maybe_get_command(cmd_text) {
                         Some(cmd) => {
                             cmd.execute(&args).unwrap();
                         }
