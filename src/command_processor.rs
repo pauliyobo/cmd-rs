@@ -66,22 +66,26 @@ impl CommandProcessor {
             let readline = rl.readline(self.get_prompt());
             match readline {
                 Ok(line) => {
-                    let mut cmd_and_args = line.split_whitespace();
-                    let cmd_text = cmd_and_args.next().unwrap();
-                    let args: Vec<&str> = cmd_and_args.collect();
-                    match self.maybe_get_command(cmd_text) {
-                        Some(cmd) => {
-                            cmd.execute(&args).unwrap();
-                        }
-                        None => {
-                            println!("No command found");
-                        }
-                    }
-                }
-                Err(ReadlineError::Interrupted) => {
+                    self.feed(&line);
+                },
+                    Err(ReadlineError::Interrupted) => {
                     break;
-                }
+                },
                 _ => (),
+            }
+        }
+    }
+
+    fn feed(&self, line: &str) {
+        let mut cmd_and_args = line.split_whitespace();
+        let cmd_text = cmd_and_args.next().unwrap();
+        let args: Vec<&str> = cmd_and_args.collect();
+        match self.maybe_get_command(cmd_text) {
+            Some(cmd) => {
+                cmd.execute(&args).unwrap();
+            }
+            None => {
+                println!("No command found");
             }
         }
     }
