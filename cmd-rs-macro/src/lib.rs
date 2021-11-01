@@ -27,7 +27,7 @@ pub fn make_command(args: TokenStream, input: TokenStream) -> TokenStream {
         .trim_start_matches("r#")
         .to_owned();
     // turning the function name into an identifier, that can be embedded in the final tokenstream
-        let ident = Ident::new(&format!("{}", cmd_name), Span::call_site());
+    let ident = Ident::new(&format!("{}", cmd_name), Span::call_site());
     let cmd_args = match Args::from_list(&attr_args) {
         Ok(v) => v,
         Err(e) => {

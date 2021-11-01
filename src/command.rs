@@ -1,16 +1,23 @@
 use crate::Result;
 
-// The  command trait
+/// The  `Command` trait
+/// This trait  defines a command that will be invoked and executed by the `CommandProcessor`
+/// while this trait is public
+/// it's use is discouraged
+/// prefer using the `make_command` macro instead
 pub trait Command {
     // the command's name
     fn name(&self) -> &str;
-    // the command's help
+    // the command's help text, which can be empty
     fn help(&self) -> Option<&str>;
     // the command's logic which is ran when the command is invoked
     fn execute(&self, args: &[&str]) -> Result<()>;
 }
 
-// A registered command
+/// A registered command
+/// While this struct isn't used directly
+/// it is used by the `inventory`  when using the `make_command` macro
+/// and it just holds a reference to an actual  command
 pub struct RegisteredCommand(Box<dyn Command>);
 
 impl RegisteredCommand {
