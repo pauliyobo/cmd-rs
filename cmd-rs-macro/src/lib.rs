@@ -61,7 +61,7 @@ pub fn make_command(args: TokenStream, input: TokenStream) -> TokenStream {
             }
         }
 
-        inventory::submit!(cmd_rs::RegisteredCommand::new(Box::new(#ident)));
+        cmd_rs::inventory::submit!(cmd_rs::RegisteredCommand::new(Box::new(#ident)));
     };
     output.into()
 }
