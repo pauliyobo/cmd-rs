@@ -3,10 +3,12 @@ use rustyline::error::ReadlineError;
 use rustyline::Editor;
 
 pub struct CommandProcessor {
-    // the prompt symbol or text  to show each time, such as >>>
+    /// the prompt symbol or text  to show each time, such as >>>
     prompt: Option<String>,
-    // the intro message
+    /// the intro message that will be printed on startup
     intro: Option<String>,
+    /// the exit message, printed before the shutdown of the application
+    exit: Option<String>,
 }
 
 impl Default for CommandProcessor {
@@ -14,6 +16,7 @@ impl Default for CommandProcessor {
         Self {
             prompt: None,
             intro: None,
+            exit: None,
         }
     }
 }
@@ -47,6 +50,13 @@ impl CommandProcessor {
         return None;
     }
 
+    pub fn maybe_get_exit(&self) -> Option<&str> {
+        if let Some(exit) = &self.exit {
+            return Some(exit.as_str());
+        }
+        None
+    } 
+    
     pub fn with_prompt(mut self, prompt: &str) -> Self {
         self.prompt = Some(prompt.to_string());
         self
@@ -54,6 +64,11 @@ impl CommandProcessor {
 
     pub fn with_intro(mut self, intro: &str) -> Self {
         self.intro = Some(intro.to_string());
+        self
+    }
+
+    pub fn with_exit(mut self, exit: &str) -> Self {
+        self.exit = Some(exit.to_string());
         self
     }
 
