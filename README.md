@@ -3,18 +3,16 @@ Cmd-rs is an attempt to build a library which helps to build interactive command
 It was inspired by the cmd module in python and the excellent [cmd2](https://github.com/python-cmd2/cmd2) library.  
 ## Usage
 To use this library you can set the dependency which points to this git repository, since it has not been published on crates.io yet.  
-In addition you will also need to install the inventory crate which is used by the `make_command` macro
 
 ```toml
 [dependencies]
 cmd-rs = { git = "https://github.com/pauliyobo/cmd-rs"}
-inventory = "0.1.10"
 ```
 
 A simple example which just prints the text test when invoked is the following:
 
 ```rust
-use cmd_rs::{make_command, CommandProcessor, Result};
+use cmd_rs::{inventory, make_command, CommandProcessor, Result};
 
 #[make_command]
 fn test() -> Result<()> {
