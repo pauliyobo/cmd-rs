@@ -25,14 +25,14 @@ impl CommandProcessor {
     pub fn new() -> Self {
         Default::default()
     }
-    
+
     fn maybe_get_intro(&self) -> Option<&str> {
         if let Some(intro) = &self.intro {
             return Some(intro.as_str());
         }
         None
     }
-    
+
     fn get_prompt(&self) -> &str {
         if let Some(prompt) = &self.prompt {
             prompt
@@ -55,8 +55,8 @@ impl CommandProcessor {
             return Some(exit.as_str());
         }
         None
-    } 
-    
+    }
+
     pub fn with_prompt(mut self, prompt: &str) -> Self {
         self.prompt = Some(prompt.to_string());
         self
@@ -82,12 +82,15 @@ impl CommandProcessor {
             match readline {
                 Ok(line) => {
                     self.feed(&line);
-                },
-                    Err(ReadlineError::Interrupted) => {
+                }
+                Err(ReadlineError::Interrupted) => {
                     break;
-                },
+                }
                 _ => (),
             }
+        }
+        if let Some(exit) = self.maybe_get_exit() {
+            println!("{}", exit);
         }
     }
 

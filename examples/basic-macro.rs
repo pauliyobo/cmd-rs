@@ -9,5 +9,7 @@ fn test() -> Result<()> {
 fn main() {
     CommandProcessor::new()
         .with_prompt(">")
+        .with_intro("Intro example")
+        .with_exit("Exit message example")
         .run();
 }
